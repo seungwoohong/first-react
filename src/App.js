@@ -1,54 +1,49 @@
 import React, { Component } from 'react';
 import './App.css';
-import Movie from './movie';
+import Movie from './movie/movie';
 
 class App extends Component {
-
-  state = {
-    greeting: 'Hello',
-    movies: [
-      {
-        title: "Matrix",
-        poster: "https://images-na.ssl-images-amazon.com/images/I/51EG732BV3L._SY445_.jpg",
-      },
-      {
-        title: "Full Metal Jacket",
-        poster: "https://ia.media-imdb.com/images/M/MV5BNzc2ZThkOGItZGY5YS00MDYwLTkyOTAtNDRmZWIwMGRhYTc0L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_UX182_CR0,0,182,268_AL_.jpg",
-      },
-      {
-        title: "Oldboy",
-        poster: "https://upload.wikimedia.org/wikipedia/en/thumb/b/bb/Oldboy_2013_film_poster.jpg/220px-Oldboy_2013_film_poster.jpg",
-      },
-      {
-        title: "Star Wars",
-        poster: "https://ia.media-imdb.com/images/M/MV5BMjQ1MzcxNjg4N15BMl5BanBnXkFtZTgwNzgwMjY4MzI@._V1_UX182_CR0,0,182,268_AL_.jpg"
-      }
-    ]
-  }
+  state = {};
 
   componentDidMount() {
-    setTimeout(() => {
-      this.setState({
-        movies: [
-          ...this.state.movies,
-          {
-            title: 'Trainspotting',
-            poster: "https://ia.media-imdb.com/images/M/MV5BMjQ1MzcxNjg4N15BMl5BanBnXkFtZTgwNzgwMjY4MzI@._V1_UX182_CR0,0,182,268_AL_.jpg"
-           }
-        ]
-      })
-    }, 1000);
+    this._getMovies();
+  }
+
+  _renderMovies = () => {
+    const movies = this.state.movies.map((movie) => {
+      return <Movie 
+        title={movie.title}
+        posterUrl={movie.medium_cover_image} 
+        key={movie.id}
+        genres={movie.genres}
+        synopsis={movie.synopsis}
+       />
+    });
+
+    return movies;
+  }
+
+  _getMovies = async () => {
+    const movies = await this._callApi();
+    this.setState({
+      movies
+    });
+  }
+
+  _callApi = () => {
+    return fetch('https://yts.am/api/v2/list_movies.json?sort_by=like_count')
+    .then(movies => movies.json())
+    .then(moviesJson => {
+      console.log(moviesJson.data.movies)
+      return moviesJson.data.movies;
+    }) 
+    .catch(err => console.log(err));
   }
 
   render() {
-    var stat = this.state;
-
     return (
       <div className="App">
-        {stat.greeting}
-        {stat.movies.map((movie, index) => {
-          return <Movie title={movie.title} posterUrl={movie.poster} key={index} />
-        })}
+        {this.state.movies ? this._renderMovies() : 'Loading...'}
       </div>
     );
   }
