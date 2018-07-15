@@ -7,15 +7,21 @@ import './movie.css';
  * @param {string} title movie title
  * @param {stirng} posterUrl movie poster image url 
  */
-function Movie({title, posterUrl}) {
+function Movie({title, posterUrl, genres, synopsis}) {
     return (
         <div className="wrap-movie">
-            <div className="box-movie">
+            <div className="movie-poster">
                 <MoviePoster poster={posterUrl}/>
             </div>
             <div className="box-movie">
-                <h1>Hello movies!</h1>
-                <h6>{title}</h6>
+                <span className="movie-title">{title}</span>
+                <div className="movie-genres">
+                    {genres.map((genre, idx) => {<MovieGenre genres={genre} index={idx}/>})}
+                </div>
+                <p className="movie-synopsis">
+                    {synopsis}
+                </p>
+            </div>
         </div>
     )
 }
@@ -30,6 +36,16 @@ function MoviePoster({poster}) {
     )
 }
 
+/**
+ * Movie genres component 
+ * @param {[string]} genres movie genres
+ */
+function MovieGenre({genres}) {
+    return (
+        <span className="movie-genre">{genres}</span> 
+    )
+}
+
 
 Movie.propTypes = {
     title: PropTypes.string.isRequired,
@@ -40,6 +56,10 @@ Movie.propTypes = {
 
 MoviePoster.propTypes = {
     poster: PropTypes.string.isRequired
+};
+
+MovieGenre.propTypes = {
+    genres: PropTypes.string.isRequired
 };
 
 

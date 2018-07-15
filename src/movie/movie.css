@@ -1,0 +1,45 @@
+.wrap-movie {
+    width: 45%;
+    height: 23rem;
+    margin: 1%;
+    float: left;
+    box-shadow: 5px 5px 10px gray;
+    padding: 1%;
+    background: white;
+    color: #454D4E; 
+}
+
+.movie-poster {
+    width: 37%;
+    margin-top: -20px;
+    float: left;
+    height: 21rem;
+    box-shadow: 15px 15px 40px #454D4E;
+    margin-right: 5%;
+}
+
+.box-movie {
+    float: left;
+    width: 55%;
+}
+
+.movie-genres {
+    float: left;
+}
+
+.movie-synopsis {
+    white-space: normal; 
+    line-height: 1.2; 
+    height: 17.6em; 
+    text-align: left; 
+    word-wrap: break-word; 
+    -webkit-line-clamp: 10; 
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+
+}
+
+.movie-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
